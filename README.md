@@ -10,7 +10,7 @@ This repository contains a PyTorch implementation of **Shake-Shake Regularizatio
 **Paper reference:** [Shake-Shake Regularization](https://arxiv.org/abs/1705.07485) 🐰
 
 
-> 💡 If you are interested in advanced regularization techniques, check out **[ShakeDrop-Replication]([https://github.com/your-link/ShakeDrop-Replication](https://github.com/barkinadiguzel/ShakeDrop-Replication))** for another interesting approach!
+> 💡 If you are interested in advanced regularization techniques, check out **[ShakeDrop-Replication]([https://github.com/barkinadiguzel/ShakeDrop-Replication](https://github.com/barkinadiguzel/ShakeDrop-Replication))** for another interesting approach!
 ---
 
 ## 🖼 Overview – Shake-Shake Architecture
