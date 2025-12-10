@@ -1,32 +1,28 @@
 import torch
+from torch.autograd import Function
 
-
-class ShakeFunction(torch.autograd.Function):
+class ShakeFn(Function):
     @staticmethod
     def forward(ctx, x1, x2, training):
         ctx.training = training
         ctx.save_for_backward(x1, x2)
         if training:
             b = x1.size(0)
-            alpha = torch.rand(b,1,1,1, device=x1.device)
-            ctx.alpha_fwd = alpha
-            return alpha * x1 + (1 - alpha) * x2
-        else:
-            return 0.5 * x1 + 0.5 * x2
+            a = torch.rand(b,1,1,1, device=x1.device)
+            ctx.a_f = a
+            return a*x1 + (1-a)*x2
+        return 0.5*(x1+x2)
 
     @staticmethod
-    def backward(ctx, grad_output):
-        x1, x2 = ctx.saved_tensors
+    def backward(ctx, g):
+        x1,x2 = ctx.saved_tensors
         if ctx.training:
-            b = grad_output.size(0)
-            alpha = torch.rand(b,1,1,1, device=grad_output.device)
-            grad_x1 = alpha * grad_output
-            grad_x2 = (1 - alpha) * grad_output
-        else:
-            grad_x1 = grad_output * 0.5
-            grad_x2 = grad_output * 0.5
-        return grad_x1, grad_x2, None
+            b = g.size(0)
+            a = torch.rand(b,1,1,1, device=g.device)
+            gx1 = a*g
+            gx2 = (1-a)*g
+            return gx1,gx2,None
+        return 0.5*g,0.5*g,None
 
-
-def shake_shake(x1, x2, training):
-    return ShakeFunction.apply(x1, x2, training)
+def shake_forward(x1,x2,training):
+    return ShakeFn.apply(x1,x2,training)
